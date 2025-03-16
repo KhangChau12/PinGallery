@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery | PinGallery</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="#"><i class="fab fa-pinterest"></i> PinGallery</a>
+        </div>
+        <div class="search-container">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search for images...">
+        </div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#" class="active" id="home-nav">Home</a></li>
+                <li><a href="#" id="explore-nav">Explore</a></li>
+                <li><a href="#" id="create-nav">Create</a></li>
+            </ul>
+        </nav>
+        <div class="user-actions">
+            <!-- Authentication buttons will be added dynamically by JavaScript -->
+        </div>
+    </header>
+
+    <main>
+        <div class="gallery-container">
+            <div class="gallery" id="image-gallery">
+                <!-- Gallery items will be added dynamically with JavaScript -->
+                <div class="loading">Loading images...</div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About</h4>
+                <ul>
+                    <li><a href="#">Our Story</a></li>
+                    <li><a href="#">Team</a></li>
+                    <li><a href="#">Careers</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Help</h4>
+                <ul>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Copyright</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 PinGallery. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Templates for modals -->
+    <template id="login-modal-template">
+        <div class="modal-content">
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-username">Username or Email</label>
+                    <input type="text" id="login-username" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <div class="form-error"></div>
+                <div class="form-actions">
+                    <button type="submit" class="btn primary-btn">Login</button>
+                </div>
+                <div class="form-footer">
+                    <p>Don't have an account? <a href="#" id="switch-to-register">Register</a></p>
+                </div>
+            </form>
+        </div>
+    </template>
+
+    <template id="register-modal-template">
+        <div class="modal-content">
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="register-username">Username</label>
+                    <input type="text" id="register-username" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" required>
+                </div>
+                <div class="form-error"></div>
+                <div class="form-actions">
+                    <button type="submit" class="btn primary-btn">Register</button>
+                </div>
+                <div class="form-footer">
+                    <p>Already have an account? <a href="#" id="switch-to-login">Login</a></p>
+                </div>
+            </form>
+        </div>
+    </template>
+
+    <template id="upload-modal-template">
+        <div class="modal-content">
+            <form id="upload-form">
+                <div class="form-group">
+                    <label for="upload-image">Image</label>
+                    <input type="file" id="upload-image" accept="image/*" required>
+                    <div class="image-preview"></div>
+                </div>
+                <div class="form-group">
+                    <label for="upload-title">Title</label>
+                    <input type="text" id="upload-title" required>
+                </div>
+                <div class="form-group">
+                    <label for="upload-description">Description</label>
+                    <textarea id="upload-description" rows="3"></textarea>
+                </div>
+                <div class="form-error"></div>
+                <div class="form-actions">
+                    <button type="submit" class="btn primary-btn">Upload</button>
+                </div>
+            </form>
+        </div>
+    </template>
+
+    <template id="image-detail-modal-template">
+        <div class="modal-content image-detail-content">
+            <div class="image-detail-container">
+                <div class="image-detail-main">
+                    <img src="" alt="" class="detail-image">
+                </div>
+                <div class="image-detail-sidebar">
+                    <div class="detail-header">
+                        <h2 class="detail-title"></h2>
+                        <div class="detail-user">
+                            <i class="fas fa-user-circle"></i>
+                            <span class="detail-username"></span>
+                        </div>
+                    </div>
+                    <div class="detail-description"></div>
+                    <div class="detail-stats">
+                        <span class="detail-likes"><i class="fas fa-heart"></i> <span class="like-count">0</span></span>
+                        <span class="detail-comments"><i class="fas fa-comment"></i> <span class="comment-count">0</span></span>
+                    </div>
+                    <div class="detail-actions">
+                        <button class="detail-save-btn">Save</button>
+                        <button class="detail-share-btn"><i class="fas fa-share"></i></button>
+                    </div>
+                    <div class="detail-comments-section">
+                        <h3>Comments</h3>
+                        <div class="comments-list"></div>
+                        <form class="comment-form">
+                            <input type="text" placeholder="Add a comment..." class="comment-input">
+                            <button type="submit" class="comment-submit-btn"><i class="fas fa-paper-plane"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="profile-modal-template">
+        <div class="modal-content profile-content">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <img src="" alt="User avatar" class="profile-avatar-img">
+                    <div class="edit-avatar-overlay">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <h2 class="profile-username"></h2>
+                    <p class="profile-email"></p>
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <span class="stat-value images-count">0</span>
+                            <span class="stat-label">Images</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value followers-count">0</span>
+                            <span class="stat-label">Followers</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value following-count">0</span>
+                            <span class="stat-label">Following</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-bio">
+                <p class="bio-text"></p>
+                <button class="edit-bio-btn"><i class="fas fa-edit"></i> Edit Bio</button>
+            </div>
+            <div class="profile-actions">
+                <button class="edit-profile-btn">Edit Profile</button>
+                <button class="change-password-btn">Change Password</button>
+                <button class="logout-profile-btn">Logout</button>
+            </div>
+            <div class="profile-content-nav">
+                <button class="profile-nav-btn active" data-tab="images">Images</button>
+                <button class="profile-nav-btn" data-tab="saved">Saved</button>
+            </div>
+            <div class="profile-content-container">
+                <div class="profile-tab-content active" id="profile-images">
+                    <div class="profile-gallery"></div>
+                </div>
+                <div class="profile-tab-content" id="profile-saved">
+                    <div class="saved-gallery"></div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.2/masonry.pkgd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/imagesloaded/4.1.4/imagesloaded.pkgd.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
