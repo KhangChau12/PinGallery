@@ -1,7 +1,11 @@
 // config/db.js - Database configuration
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
-const dbPath = path.resolve(__dirname, '../../database.db');
+
+// Use /tmp directory for the database in production (Render)
+const dbPath = process.env.NODE_ENV === 'production'
+  ? path.resolve('/tmp/database.db')
+  : path.resolve(__dirname, '../../database.db');
 
 // Create and initialize database
 const initializeDatabase = () => {
@@ -88,49 +92,3 @@ const createTables = (db) => {
 // Export database connection
 const db = initializeDatabase();
 module.exports = db;
-
-// models/index.js - Database models and schema
-const db = require('../config/db');
-
-// Promisify database queries for easier use
-const runQuery = (query, params = []) => {
-    return new Promise((resolve, reject) => {
-        db.run(query, params, function(err) {
-            if (err) {
-                reject(err);
-            } else {
-                resolve({ id: this.lastID, changes: this.changes });
-            }
-        });
-    });
-};
-
-const getOne = (query, params = []) => {
-    return new Promise((resolve, reject) => {
-        db.get(query, params, (err, row) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(row);
-            }
-        });
-    });
-};
-
-const getAll = (query, params = []) => {
-    return new Promise((resolve, reject) => {
-        db.all(query, params, (err, rows) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(rows);
-            }
-        });
-    });
-};
-
-module.exports = {
-    runQuery,
-    getOne,
-    getAll
-};
